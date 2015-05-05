@@ -52,16 +52,13 @@
 						Open source document oriented database
 						</li>
 						<li class="fragment">
-						All operations are accessed through HTTP
+						Web oriented - All operations are accessed through HTTP
 						</li>
 						<li class="fragment">
 						All documents are JSON
 						</li>
 						<li class="fragment">
-						Written in erlang
-						</li>
-						<li class="fragment">
-						Very simple replication
+						Very simple and robust replication
 						</li>
 					</ul>
 				</section>
@@ -70,7 +67,7 @@
 					<h2>What is PouchDB?</h2>
 					<ul>
 						<li class="fragment">
-						You can't run an erlang web-server in a web-browser, so PouchDB!
+						A version of CouchDB, but written in javascript instead of erlang, so it can run in web-browsers
 						</li>
 						<li class="fragment">
 						PouchDB re-implements the same replication protocol as CouchDB, so syncing between Pouch and Couch is a breeze
@@ -82,15 +79,34 @@
 				</section>
 
 				<section>
-					<h2>Why this is a big deal</h2>
-					<ul>
-						<li class="fragment">
-						Our mobile app is just a web-page running in a frameless web-browser
-						</li>
-						<li class="fragment">
-						Researchers are typically offline while collecting data
-						</li>
-					</ul>
+					<section>
+						<h2>Why this is a big deal</h2>
+						<ul>
+							<li class="fragment">
+							Researchers are almost always offline while collecting new data
+							</li>
+							<li class="fragment">
+							There are multiple researchers recording data at the same time
+							</li>
+							<li class="fragment">
+							Whenever a connection is available, we'd like to sync to a central database
+							</li>
+							<li class="fragment">
+							We'd like to access the data using only javascript
+							</li>
+						</ul>
+					</section>
+					<section>
+						<h2>The combination of Couch and Pouch handles these challenges very well</h2>
+						<ul>
+							<li class="fragment">
+							Offline data collection and frequent syncs becomes trivial
+							</li>
+						</ul>
+					</section>
+					<section>
+						<img src="lamp_vs_couch_and_pouch.png"></img>
+					</section>
 				</section>
 
 				<section>
@@ -113,7 +129,46 @@
 				</section>
 
 				<section>
-					<h1>CRUD vs The Web</h1>
+					<section>
+						<h2>A brief discussion of HTTP</h2>
+						<ul>
+							<li class="fragment">
+								The protocol of the web
+							</li>
+							<li class="fragment">
+								Stateless request response pattern
+							</li>
+							<li class="fragment">
+								Requests have an associated verb and the semantics are well defined.
+							</li>
+							<li class="fragment">
+								All requests have a URL and key value pairs known as headers, but some verbs additionally contain a body
+							</li>
+							<li class="fragment">
+								Some HTTP verbs are GET, POST and PUT
+							</li>
+						</ul>
+					</section>
+					<section>
+						<h2>Example HTTP GET</h2>
+						<ul style="list-style-type:none">
+							<li class="fragment">
+								<img src="get.png"></img>
+							</li>
+						</ul>
+					</section>
+					<section>
+						<h2>Example HTTP POST</h2>
+						<ul style="list-style-type:none">
+							<li class="fragment">
+								<img src="post.png"></img>
+							</li>
+						</ul>
+					</section>
+				</section>
+
+				<section>
+					<h1>CRUD vs HTTP</h1>
 					<p> </p>
 					<ul style="list-style-type:none">
 						<li>
@@ -132,38 +187,52 @@
 				</section>
 				<section>
 					<section>
-					<p>Respect these HTTP Verbs to access/manipulate consistent URIs and you're using REST!</p>
-					</section>
-
-					<section>
 						<h1>Create</h1>
-						<p>PUT: http://www.ethoinformatics.org/monkey/123</p>
+						<p>PUT: http://demo.ethoinformatics.org:5984/monkey/123</p>
 <pre><code class=" hljs javascript hljs ">{
   "name": "coco"
 }
+</code></pre>
+<h3>cUrl</h3>
+<pre><code class=" hljs bash hljs " style="font-size:12px">curl -X PUT \
+	-H "Content-Type:application/json" \
+	-d'{"name":"hello"}' http://demo.ethoinformatics.org:5984/monkey/123
 </code></pre>
 					</section>
 
 					<section>
 						<h1>Read</h1>
-						<p>GET: http://www.ethoinformatics.org/monkey/123</p>
+						<p>GET: http://www.ethoinformatics.org:5984/monkey/123</p>
+<h3>cUrl</h3>
+<pre><code class=" hljs bash hljs " style="font-size:12px">curl http://demo.ethoinformatics.org:5984/monkey/123
+</code></pre>
 					</section>
 
 					<section>
 						<h1>Update</h1>
-						<p>POST: http://www.ethoinformatics.org/monkey/123</p>
+						<p>POST: http://www.ethoinformatics.org:5984/monkey/123</p>
+<pre><code class=" hljs bash hljs " style="font-size:12px">curl -X POST \
+	-H "Content-Type:application/json" \
+	-d'{"_id":"123", "rev": ..., "name":"hello"}' http://demo.ethoinformatics.org:5984/monkey/
+</code></pre>
 					</section>
 
 					<section>
 						<h1>Delete</h1>
-						<p>DELETE: http://www.ethoinformatics.org/monkey/123</p>
+						<p>DELETE: http://www.ethoinformatics.org:5984/monkey/123</p>
+<pre><code class=" hljs bash hljs " style="font-size:12px">curl -X DELETE \
+	-H "Content-Type:application/json" \
+	-http://demo.ethoinformatics.org:5984/monkey/ooo?rev=....
+</code></pre>
 					</section>
 
 				</section>
 
 				<section>
-
+					<h3>Let's try it!</h3>
+					<a target="_blank" href="http://rawgit.com/ethoinformatics/couch-workshop-viewer-app/master/dist/index.html">Pouch app</a>
 				</section>
+
 				<section>
 					<ul>
 						<li>
